@@ -34,18 +34,20 @@ if ($result_admin->num_rows == 1) {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background: url('../img/secundaria.png') no-repeat center center fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 2.5cm 0 0 0;
+            color: #0076c8;
         }
         .container {
             width: 80%;
             margin: 20px auto;
-            background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: transparent;
+            box-shadow: none;
         }
         .welcome {
             text-align: center;
@@ -61,34 +63,40 @@ if ($result_admin->num_rows == 1) {
             width: 100px;
             margin: 20px auto;
             text-align: center;
-            background-color: #dc3545; /* Rojo */
+            background-color: #0076c8;
             color: white;
             padding: 10px;
             border-radius: 5px;
+            border: 2px solid #0076c8;
             text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .logout-btn:hover {
-            background-color: #c82333; /* Rojo más oscuro */
+            background-color: white;
+            color: #0076c8;
         }
         .button-container {
             display: flex;
             justify-content: space-around;
             margin-top: 30px;
+            flex-wrap: wrap;
         }
         .button-container a {
             display: block;
             width: 200px;
             padding: 15px;
             text-align: center;
-            background-color: #007bff; /* Azul */
-            color: white;
+            background-color: transparent;
+            color: #0076c8;
             border-radius: 5px;
+            border: 2px solid #0076c8;
             text-decoration: none;
             margin-bottom: 10px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .button-container a:hover {
-            background-color: #0056b3; /* Azul más oscuro */
+            background-color: #0076c8;
+            color: white;
         }
     </style>
 </head>

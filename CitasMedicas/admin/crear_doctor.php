@@ -1,24 +1,34 @@
 <?php
-session_start();
-
 // Incluir archivo de conexión a la base de datos
 include_once '../includes/db_connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+// Procesar el formulario cuando se envíe
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Validar y limpiar datos ingresados
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
-    $especialidad = $_POST['especialidad'];
-    $hospital = $_POST['hospital'];
+    $especialidad_id = $_POST['especialidad'];
 
-    // Insertar nuevo doctor en la base de datos
-    $query_insert = "INSERT INTO Doctores (Nombre, Apellido, Especialidad, HospitalID) VALUES ('$nombre', '$apellido', '$especialidad', $hospital)";
+    // Insertar doctor en la base de datos
+    $query_insert_doctor = "INSERT INTO Doctores (Nombre, Apellido, EspecialidadID)
+                            VALUES (?, ?, ?)";
 
-    if ($conn->query($query_insert) === TRUE) {
-        echo "<script>alert('Doctor creado correctamente.'); window.location.href='lista_doctor.php';</script>";
+    if ($stmt = $conn->prepare($query_insert_doctor)) {
+        $stmt->bind_param("ssi", $nombre, $apellido, $especialidad_id);
+        if ($stmt->execute()) {
+            $message = "Doctor agregado correctamente.";
+        } else {
+            $message = "Error al agregar el doctor: " . $stmt->error;
+        }
+        $stmt->close();
     } else {
-        echo "<script>alert('Error al crear el doctor: " . $conn->error . "');</script>";
+        $message = "Error al preparar la consulta: " . $conn->error;
     }
 }
+
+// Consultar especialidades disponibles
+$query_especialidades = "SELECT EspecialidadID, Nombre FROM Especialidades";
+$result_especialidades = $conn->query($query_especialidades);
 ?>
 
 <!DOCTYPE html>
@@ -26,16 +36,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Doctor</title>
+    <title>Agregar Doctor</title>
     <link rel="stylesheet" href="../css/styles.css">
     <style>
-        /* Estilos adicionales según necesidad */
+        body {
+            background-color: #f0f0f0; /* Fondo gris claro */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff; /* Azul */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3; /* Azul más oscuro */
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Crear Nuevo Doctor</h2>
-        <form action="" method="POST">
+        <h2>Agregar Doctor</h2>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required>
@@ -48,41 +105,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                 <label for="especialidad">Especialidad:</label>
                 <select id="especialidad" name="especialidad" required>
                     <option value="">Seleccionar Especialidad</option>
-                    <!-- Aquí se generan dinámicamente las opciones de especialidades desde la base de datos -->
                     <?php
-                    $query_especialidades = "SELECT EspecialidadID, Nombre FROM Especialidades";
-                    $result_especialidades = $conn->query($query_especialidades);
-
-                    if ($result_especialidades->num_rows > 0) {
-                        while ($row = $result_especialidades->fetch_assoc()) {
-                            echo "<option value='" . $row['EspecialidadID'] . "'>" . $row['Nombre'] . "</option>";
-                        }
-                    }
-                    ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="hospital">Hospital:</label>
-                <select id="hospital" name="hospital" required>
-                    <option value="">Seleccionar Hospital</option>
-                    <!-- Aquí se generan dinámicamente las opciones de hospitales desde la base de datos -->
-                    <?php
-                    $query_hospitales = "SELECT HospitalID, Nombre FROM Hospitales";
-                    $result_hospitales = $conn->query($query_hospitales);
-
-                    if ($result_hospitales->num_rows > 0) {
-                        while ($row = $result_hospitales->fetch_assoc()) {
-                            echo "<option value='" . $row['HospitalID'] . "'>" . $row['Nombre'] . "</option>";
-                        }
+                    while ($row_especialidad = $result_especialidades->fetch_assoc()) {
+                        echo '<option value="' . $row_especialidad['EspecialidadID'] . '">' . $row_especialidad['Nombre'] . '</option>';
                     }
                     ?>
                 </select>
             </div>
             <div class="btn-container">
-                <button type="submit" class="btn btn-primary" name="submit">Crear Doctor</button>
-                <a href="lista_doctor.php" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn">Agregar</button>
+                <a href="lista_doctor.php" class="btn">Cancelar</a>
             </div>
         </form>
+        <?php if (isset($message)) : ?>
+            <div class="message">
+                <?php echo $message; ?>
+            </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

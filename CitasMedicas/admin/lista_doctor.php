@@ -1,23 +1,22 @@
 <?php
-session_start();
-
 // Incluir archivo de conexión a la base de datos
 include_once '../includes/db_connection.php';
 
-// Obtener lista de doctores
-$query_doctores = "SELECT DoctorID, Nombre, Apellido FROM Doctores";
+// Consultar lista de doctores y sus especialidades
+$query_doctores = "SELECT d.DoctorID, d.Nombre, d.Apellido, e.Nombre AS Especialidad 
+                   FROM Doctores d
+                   JOIN Especialidades e ON d.EspecialidadID = e.EspecialidadID";
 $result_doctores = $conn->query($query_doctores);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
-    // Eliminar doctor
-    $delete_id = $_POST['delete_id'];
-    $query_delete = "DELETE FROM Doctores WHERE DoctorID = $delete_id";
-
-    if ($conn->query($query_delete) === TRUE) {
-        echo "<script>alert('Doctor eliminado correctamente.'); window.location.href='lista_doctor.php';</script>";
-    } else {
-        echo "<script>alert('Error al eliminar el doctor: " . $conn->error . "');</script>";
-    }
+// Procesar eliminación de doctor
+if (isset($_GET['delete'])) {
+    $doctor_id = $_GET['delete'];
+    $query_delete = "DELETE FROM Doctores WHERE DoctorID = ?";
+    $stmt = $conn->prepare($query_delete);
+    $stmt->bind_param("i", $doctor_id);
+    $stmt->execute();
+    header("Location: lista_doctor.php");
+    exit();
 }
 ?>
 
@@ -30,105 +29,88 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background: url('../img/secundaria.png') no-repeat center center fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 2.5cm 0 0 0;
+            color: #0076c8;
         }
         .container {
             width: 80%;
-            margin: 20px auto;
-            background-color: white;
+            margin: 50px auto;
+            background-color: transparent; /* Fondo transparente */
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: none;
         }
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
         th, td {
-            padding: 10px;
+            padding: 12px;
+            border: 1px solid #0076c8; /* Borde azul */
             text-align: left;
+            color: #0076c8; /* Color de texto azul */
+        }
+        th {
+            background-color: transparent; /* Fondo transparente */
+        }
+        .btn-container {
+            text-align: right;
+            margin-top: 20px;
         }
         .btn {
-            padding: 5px 10px;
-            background-color: #007bff; /* Azul */
+            padding: 10px 20px;
+            background-color: #0076c8; /* Azul */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            text-decoration: none; /* Quitar subrayado en el caso de los enlaces */
+            margin-right: 10px; /* Espaciado entre botones */
         }
         .btn:hover {
             background-color: #0056b3; /* Azul más oscuro */
         }
-        .btn-delete {
-            background-color: #dc3545; /* Rojo */
-        }
-        .btn-delete:hover {
-            background-color: #c82333; /* Rojo más oscuro */
-        }
-        .btn-home, .btn-add {
-            background-color: #28a745; /* Verde */
-        }
-        .btn-home:hover, .btn-add:hover {
-            background-color: #218838; /* Verde más oscuro */
-        }
-        .button-container {
-            margin-bottom: 20px;
-            text-align: right;
-        }
     </style>
-    <script>
-        function confirmDelete(doctorID) {
-            if (confirm('¿Está seguro que desea eliminar este doctor?')) {
-                document.getElementById('deleteForm').delete_id.value = doctorID;
-                document.getElementById('deleteForm').submit();
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="container">
-        <div class="button-container">
-            <a href="index_admin.php" class="btn btn-home">Home</a>
-            <a href="crear_doctor.php" class="btn btn-add">Agregar Doctor</a>
-        </div>
-        <h2>Lista de Doctores</h2>
+        <h2 style="color: #0076c8;">Lista de Doctores</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Acciones</th>
+                    <th style="color: #0076c8;">Nombre</th>
+                    <th style="color: #0076c8;">Apellido</th>
+                    <th style="color: #0076c8;">Especialidad</th>
+                    <th style="color: #0076c8;">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                if ($result_doctores->num_rows > 0) {
-                    while ($row = $result_doctores->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row['Nombre'] . "</td>";
-                        echo "<td>" . $row['Apellido'] . "</td>";
-                        echo "<td>
-                                <a href='editar_doctor.php?id=" . $row['DoctorID'] . "' class='btn'>Editar</a>
-                                <button class='btn btn-delete' onclick='confirmDelete(" . $row['DoctorID'] . ")'>Eliminar</button>
-                              </td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3'>No se encontraron doctores.</td></tr>";
-                }
-                ?>
+                <?php while ($row_doctor = $result_doctores->fetch_assoc()) : ?>
+                    <tr>
+                        <td style="color: #0076c8;"><?php echo $row_doctor['Nombre']; ?></td>
+                        <td style="color: #0076c8;"><?php echo $row_doctor['Apellido']; ?></td>
+                        <td style="color: #0076c8;"><?php echo $row_doctor['Especialidad']; ?></td>
+                        <td>
+                            <a href="editar_doctor.php?id=<?php echo $row_doctor['DoctorID']; ?>" class="btn">Editar</a>
+                            <a href="lista_doctor.php?delete=<?php echo $row_doctor['DoctorID']; ?>" class="btn" onclick="return confirm('¿Está seguro de eliminar este doctor?');">Eliminar</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
             </tbody>
         </table>
-        <form id="deleteForm" method="POST" action="">
-            <input type="hidden" name="delete_id" value="">
-        </form>
+        <div class="btn-container">
+            <a href="crear_doctor.php" class="btn">Agregar Doctor</a>
+            <a href="index_admin.php" class="btn">Home</a>
+        </div>
     </div>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="css/styles.css">
     <style>
         body {
-            background-color: #e0f0ff; /* Azul claro */
+            background: url('img/principal.png') no-repeat center center fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -15,63 +16,81 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column;
+        }
+        header {
+            width: 25%;
+            background-color: #0076c8;
+            color: white;
+            font-size: 30px;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: none;
         }
         .container {
             width: 80%;
-            max-width: 600px;
-            background-color: white;
+            max-width: 1200px;
+            background-color: transparent;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .title {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
+            border: none;
+            box-shadow: none;
+            margin-top: 100px; /* Espacio debajo del encabezado */
         }
         .options {
             display: flex;
             justify-content: space-between;
+            margin-top: 1cm;
         }
         .left-column, .right-column {
             flex: 1;
             text-align: center;
+            color: #0076c8;
+        }
+        .right-column {
+            color: white;
         }
         .button {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+            background-color: transparent;
+            color: inherit;
             text-decoration: none;
+            border: 2px solid currentColor;
             border-radius: 5px;
             margin-bottom: 10px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .button:hover {
-            background-color: #0056b3;
+            background-color: white;
+            color: #0076c8;
         }
         .register-link {
             font-size: 14px;
-            color: #007bff;
             text-decoration: none;
             display: block;
             margin-top: 10px;
+            font-weight: bold;
+            color: inherit;
+        }
+        .register-link a {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
+    <header>
+        Sistema de Gestión de Citas
+    </header>
     <div class="container">
-        <div class="title">
-            <h1>Sistema de Gestión de Citas</h1>
-        </div>
         <div class="options">
             <div class="left-column">
                 <a href="admin/login.php" class="button">Inicio de sesión (Administrador)</a>
-                <a href="admin/registro.php" class="register-link">No tiene cuenta, regístrese aquí</a>
+                <div class="register-link">No tiene cuenta, regístrese <a href="admin/registro.php"> aquí</a></div>
             </div>
             <div class="right-column">
                 <a href="afiliado/login.php" class="button">Inicio de sesión (Afiliado)</a>
-                <a href="afiliado/registro.php" class="register-link">No tiene cuenta, regístrese aquí</a>
+                <div class="register-link">No tiene cuenta, regístrese <a href="afiliado/registro.php"> aquí</a></div>
             </div>
         </div>
     </div>

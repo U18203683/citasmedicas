@@ -48,7 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #e0f0ff; /* Azul claro */
+            background-image: url('../img/registro.png');
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -56,14 +57,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: white; /* Color de todos los textos */
         }
         .container {
-            width: 80%;
-            max-width: 400px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+            background-color: transparent;
+            padding: none;
+            border-radius: none;
+            box-shadow: none;
         }
         .title {
             text-align: center;
@@ -75,27 +77,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
         }
         .form-group input {
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
+            border: 1.5px solid white; /* Color de los bordes de los inputs */
+            border-radius: 5px;
+            background: transparent;
+            color: white; /* Color del texto dentro de los inputs */
         }
         .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
+            padding: 10px 50px;
+            background-color: white;
+            color: #0076c8;
+            border: 1.5px solid white;
+            border-radius: 10px;
+            cursor: pointer;
             transition: background-color 0.3s ease;
-            text-align: center;
-            width: 100%;
         }
         .button:hover {
-            background-color: #0056b3;
+            background-color: #0076c8;
+            color: white;
         }
         .error {
             color: red;
@@ -107,45 +110,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-bottom: 15px;
             text-align: center;
         }
+        table {
+            width: 100%;
+            height: 100%;
+            table-layout: fixed;
+        }
+        td {
+            vertical-align: top;
+        }
+        .content {
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="title">
-            <h1>Registro de Administrador</h1>
-        </div>
-        <?php if ($error): ?>
-            <div class="error"><?php echo $error; ?></div>
-        <?php endif; ?>
-        <?php if ($success): ?>
-            <div class="success"><?php echo $success; ?></div>
-            <a href="login.php" class="button">Iniciar Sesión</a>
-        <?php else: ?>
-            <form method="POST" action="">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="apellido">Apellido</label>
-                    <input type="text" id="apellido" name="apellido" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirm_password">Confirmar Contraseña</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
-                </div>
-                <button type="submit" class="button">Registrar</button>
-                <a href="../index.php" class="button">Cancelar</a>
-            </form>
-        <?php endif; ?>
+        <table>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="content">
+                        <div class="title">
+                            <h1>Registro de Administrador</h1>
+                        </div>
+                        <?php if ($error): ?>
+                            <div class="error"><?php echo $error; ?></div>
+                        <?php endif; ?>
+                        <?php if ($success): ?>
+                            <div class="success"><?php echo $success; ?></div>
+                            <a href="login.php" class="button">Iniciar Sesión</a>
+                        <?php else: ?>
+                            <form method="POST" action="">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" name="nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="apellido">Apellido</label>
+                                    <input type="text" id="apellido" name="apellido" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Correo Electrónico</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Contraseña</label>
+                                    <input type="password" id="password" name="password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm_password">Confirmar Contraseña</label>
+                                    <input type="password" id="confirm_password" name="confirm_password" required>
+                                </div>
+                                <button type="submit" class="button">Registrar</button>  
+                                <a href="../index.php" class="button">Cancelar</a>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

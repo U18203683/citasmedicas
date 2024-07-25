@@ -42,53 +42,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background: url('../img/secundaria.png') no-repeat center center fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 2cm 0 0 0;
+            color: #0076c8;
         }
         .container {
             width: 50%;
             margin: 50px auto;
-            background-color: white;
             padding: 20px;
             border-radius: 8px;
+            background: transparent;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
+            color: #0076c8;
         }
         .form-group input {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #0076c8;
             border-radius: 4px;
+            color: #0076c8;
         }
         .btn-container {
             text-align: right;
         }
         .btn {
             padding: 8px 15px;
-            background-color: #007bff; /* Azul */
+            background-color: #0076c8;
             color: white;
-            border: none;
+            border: 2px solid #0076c8;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
             margin-left: 10px;
+            text-decoration: none;
         }
         .btn:hover {
-            background-color: #0056b3; /* Azul más oscuro */
+            background-color: white;
+            color: #0076c8;
         }
         .btn-cancel {
-            background-color: #dc3545; /* Rojo */
-        }
-        .btn-cancel:hover {
-            background-color: #c82333; /* Rojo más oscuro */
+            border: 2px solid #0076c8;
         }
     </style>
 </head>

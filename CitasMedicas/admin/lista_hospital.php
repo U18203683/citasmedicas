@@ -30,25 +30,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background: url('../img/secundaria.png') no-repeat center center fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 2.5cm 0 0 0;
+            color: #0076c8;
         }
         .container {
             width: 80%;
             margin: 20px auto;
-            background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: transparent;
+            box-shadow: none;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            color: #0076c8;
         }
         table, th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #0076c8;
         }
         th, td {
             padding: 10px;
@@ -56,27 +59,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
         }
         .btn {
             padding: 5px 10px;
-            background-color: #007bff; /* Azul */
+            background-color: #0076c8;
             color: white;
-            border: none;
+            border: 2px solid #0076c8;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .btn:hover {
-            background-color: #0056b3; /* Azul más oscuro */
+            background-color: white;
+            color: #0076c8;
         }
         .btn-delete {
-            background-color: #dc3545; /* Rojo */
+            border-color: #0076c8;
         }
         .btn-delete:hover {
-            background-color: #c82333; /* Rojo más oscuro */
+            background-color: white;
+            color: #0076c8;
         }
         .btn-home, .btn-add {
-            background-color: #28a745; /* Verde */
+            border-color: #0076c8;
         }
         .btn-home:hover, .btn-add:hover {
-            background-color: #218838; /* Verde más oscuro */
+            background-color: white;
+            color: #0076c8;
         }
         .button-container {
             margin-bottom: 20px;
@@ -132,3 +138,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
     </div>
 </body>
 </html>
+

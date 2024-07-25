@@ -1,43 +1,36 @@
 <?php
-// Iniciar sesión si aún no está iniciada
-session_start();
-
-// Verificar si el afiliado está autenticado
-// Aquí puedes implementar tu lógica de autenticación, como comprobar la sesión, cookies, etc.
-// Por simplicidad, aquí asumimos que ya se ha realizado la autenticación.
-
-// Ejemplo de autenticación básica:
-// Suponemos que $afiliado_id contiene el ID del afiliado autenticado
-$afiliado_id = 1; // Este valor debe ser obtenido de tu sistema de autenticación
-
 // Incluir archivo de conexión a la base de datos
 include_once '../includes/db_connection.php';
 
-// Consultar hospitales disponibles
-$query_hospitales = "SELECT HospitalID, Nombre FROM Hospitales";
-$result_hospitales = $conn->query($query_hospitales);
+// Verificar si el afiliado está autenticado
+session_start();
+if (!isset($_SESSION['afiliado_id'])) {
+    header("Location: login_afiliado.php");
+    exit();
+}
+
+// Obtener el ID del afiliado autenticado
+$afiliado_id = $_SESSION['afiliado_id'];
 
 // Consultar especialidades disponibles
 $query_especialidades = "SELECT EspecialidadID, Nombre FROM Especialidades";
 $result_especialidades = $conn->query($query_especialidades);
 
-// Consultar doctores disponibles
-$query_doctores = "SELECT DoctorID, Nombre, Apellido FROM Doctores";
-$result_doctores = $conn->query($query_doctores);
-
 // Procesamiento del formulario cuando se envíe
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validar y limpiar datos ingresados
     $fecha = $_POST['fecha'];
-    $hospital_id = $_POST['hospital'];
     $especialidad_id = $_POST['especialidad'];
     $doctor_id = $_POST['doctor'];
 
     // Insertar cita en la base de datos
     $query_insert_cita = "INSERT INTO Citas (AfiliadoID, DoctorID, EspecialidadID, Estado, FechaHora)
-                          VALUES ($afiliado_id, $doctor_id, $especialidad_id, 'Registrada', '$fecha')";
-
-    if ($conn->query($query_insert_cita) === TRUE) {
+                          VALUES (?, ?, ?, 'Registrada', ?)";
+    
+    $stmt = $conn->prepare($query_insert_cita);
+    $stmt->bind_param("iiis", $afiliado_id, $doctor_id, $especialidad_id, $fecha);
+    
+    if ($stmt->execute()) {
         $message = "Cita generada correctamente.";
     } else {
         $message = "Error al generar la cita: " . $conn->error;
@@ -54,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background: url('../img/secundaria.png') no-repeat center top fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -67,17 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            color: #0076c8; /* Color de texto para etiquetas */
         }
         .form-group select, .form-group input[type="date"] {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #0076c8; /* Borde de input */
             border-radius: 5px;
         }
         .btn-container {
@@ -86,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .btn {
             padding: 10px 20px;
-            background-color: #007bff; /* Azul */
+            background-color: #0076c8;
             color: white;
             border: none;
             border-radius: 5px;
@@ -94,33 +86,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             transition: background-color 0.3s ease;
         }
         .btn:hover {
-            background-color: #0056b3; /* Azul más oscuro */
+            background-color: #0056b3;
         }
         .message {
             text-align: center;
             margin-top: 20px;
             font-weight: bold;
+            color: #0076c8; /* Color de texto para mensaje */
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("especialidad").addEventListener("change", function() {
+                var especialidadID = this.value;
+                var doctorSelect = document.getElementById("doctor");
+
+                if (especialidadID) {
+                    fetch('get_doctores.php?especialidad_id=' + especialidadID)
+                        .then(response => response.json())
+                        .then(data => {
+                            doctorSelect.innerHTML = '<option value="">Seleccionar Doctor</option>';
+                            data.forEach(doctor => {
+                                var option = document.createElement('option');
+                                option.value = doctor.DoctorID;
+                                option.textContent = doctor.Nombre + ' ' + doctor.Apellido;
+                                doctorSelect.appendChild(option);
+                            });
+                        });
+                } else {
+                    doctorSelect.innerHTML = '<option value="">Seleccionar Doctor</option>';
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
-        <h2>Generar Cita</h2>
+        <h2 style="color: #0076c8;">Generar Cita</h2>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
             <div class="form-group">
                 <label for="fecha">Fecha:</label>
                 <input type="date" id="fecha" name="fecha" required>
-            </div>
-            <div class="form-group">
-                <label for="hospital">Hospital:</label>
-                <select id="hospital" name="hospital" required>
-                    <option value="">Seleccionar Hospital</option>
-                    <?php
-                    while ($row_hospital = $result_hospitales->fetch_assoc()) {
-                        echo '<option value="' . $row_hospital['HospitalID'] . '">' . $row_hospital['Nombre'] . '</option>';
-                    }
-                    ?>
-                </select>
             </div>
             <div class="form-group">
                 <label for="especialidad">Especialidad:</label>
@@ -137,11 +143,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="doctor">Doctor:</label>
                 <select id="doctor" name="doctor" required>
                     <option value="">Seleccionar Doctor</option>
-                    <?php
-                    while ($row_doctor = $result_doctores->fetch_assoc()) {
-                        echo '<option value="' . $row_doctor['DoctorID'] . '">' . $row_doctor['Nombre'] . ' ' . $row_doctor['Apellido'] . '</option>';
-                    }
-                    ?>
                 </select>
             </div>
             <div class="btn-container">

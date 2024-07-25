@@ -55,10 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background-image: url('../img/secundaria.png');
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 2.5cm 0 0 0; /* Espacio de 2.5cm en la parte superior */
         }
         .container {
             width: 50%;
@@ -74,12 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            color: #0076c8;
         }
         .form-group input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #0076c8;
             border-radius: 5px;
+            color: #0076c8;
         }
         .btn-container {
             text-align: center;
@@ -87,9 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .btn {
             padding: 10px 20px;
-            background-color: #007bff; /* Azul */
+            background-color: #0076c8; /* Azul */
             color: white;
-            border: none;
+            border: 1px solid #0076c8;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -101,6 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             text-align: center;
             margin-top: 20px;
             font-weight: bold;
+            color: #0076c8;
         }
         .error {
             text-align: center;
@@ -112,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="container">
-        <h2>Editar Afiliado</h2>
+        <h2 style="color: #0076c8;">Editar Afiliado</h2>
         <form action="<?php echo $_SERVER['PHP_SELF'] . "?id=$afiliado_id"; ?>" method="POST">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>

@@ -30,10 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
             font-family: Arial, sans-serif;
-            margin: 0;
+            margin: 2.5cm 0 0 0;
             padding: 0;
+            background: url('../img/secundaria.png') no-repeat center center fixed;
+            background-size: cover;
         }
         .container {
             width: 80%;
@@ -41,14 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: none;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            color: #0076c8;
         }
         table, th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #0076c8;
         }
         th, td {
             padding: 10px;
@@ -56,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
         }
         .btn {
             padding: 5px 10px;
-            background-color: #007bff; /* Azul */
+            background-color: #0076c8;
             color: white;
             border: none;
             border-radius: 5px;
@@ -64,19 +66,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
             transition: background-color 0.3s ease;
         }
         .btn:hover {
-            background-color: #0056b3; /* Azul más oscuro */
+            background-color: white;
+            color: #0076c8;                 /* Color de texto #0076c8 */
+            border: 1.5px solid #0076c8;    /* Color y ancho de borde #0076c8  1.5px */
+            border-radius: 5px;
         }
         .btn-delete {
-            background-color: #dc3545; /* Rojo */
+            background-color: #dc3545;
         }
         .btn-delete:hover {
-            background-color: #c82333; /* Rojo más oscuro */
+            background-color: white;
+            color: #c82333;                 /* Color de texto rojo */
+            border: 1px solid #c82333;    /* Color y ancho de borde rojo  1.5px */
+            border-radius: 5px;
         }
         .btn-home, .btn-add {
-            background-color: #28a745; /* Verde */
+            background-color: #0076c8;
         }
-        .btn-home:hover, .btn-add:hover {
-            background-color: #218838; /* Verde más oscuro */
+        .btn-home:hover, .btn-add:hover {   /* Diseño al colocar cursor*/
+            background-color: white;        /* Fondo blanco */
+            color: #0076c8;                 /* Color de texto #0076c8 */
+            border: 1.5px solid #0076c8;    /* Color y ancho de borde #0076c8  1.5px */
+            border-radius: 5px;
         }
         .button-container {
             margin-bottom: 20px;
@@ -98,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_id'])) {
             <a href="index_admin.php" class="btn btn-home">Home</a>
             <a href="crear_especialidad.php" class="btn btn-add">Agregar Especialidad</a>
         </div>
-        <h2>Lista de Especialidades</h2>
+        <h2 style="color: #0076c8;">Lista de Especialidades</h2>
         <table>
             <thead>
                 <tr>

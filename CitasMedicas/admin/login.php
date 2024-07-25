@@ -34,87 +34,117 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Administrador</title>
+    <title>Login Administrador</title>
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #e0f0ff; /* Azul claro */
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
+            background: url('../img/inicio_sesion.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
         }
         .container {
-            width: 80%;
-            max-width: 400px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            width: 100%;
+            background: transparent;
+            box-shadow: none;
         }
-        .title {
+        .left-side, .right-side {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
             text-align: center;
-            font-size: 24px;
+            background: transparent;
+        }
+        .login-box h2 {
             margin-bottom: 20px;
         }
         .form-group {
             margin-bottom: 15px;
+            text-align: left;
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            color: white;
         }
         .form-group input {
             width: 100%;
             padding: 10px;
-            box-sizing: border-box;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
+            border: 2px solid white;
+            border-radius: 10px;
+            background: transparent;
             color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 80px;
+            background-color: white;
+            color: #007BFF;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
             transition: background-color 0.3s ease;
-            text-align: center;
-            width: 100%;
         }
-        .button:hover {
-            background-color: #0056b3;
+        .btn:hover {
+            background-color: #dcdcdc;
         }
-        .error {
-            color: red;
-            margin-bottom: 15px;
-            text-align: center;
+        .login-box a {
+            color: 007BFF;
+            text-decoration: none;
+        }
+        .login-box b {
+            color: 007BFF;
+            text-decoration: none;
+        }
+        .login-box b:hover {
+            text-decoration: underline;
+        }
+        .login-box p {
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="title">
-            <h1>Iniciar Sesión - Administrador</h1>
+        <div class="left-side"></div>
+        <div class="right-side">
+            <div class="login-box">
+                <h2>Login Administrador</h2>
+                <p>Inicie sesión para continuar</p>
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <div class="form-group">
+                        <label for="email">email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="btn-container">
+                        <button type="submit" class="btn">Login</button>
+                        <a href="../index.php" class="btn">Cancelar</a>
+                    </div>
+                </form>
+                <p>Olvidó su contraseña, haga clic <a href="recuperar_clave.php">aquí</a></p>
+            </div>
         </div>
-        <?php if ($error): ?>
-            <div class="error"><?php echo $error; ?></div>
-        <?php endif; ?>
-        <form method="POST" action="">
-            <div class="form-group">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="button">Iniciar Sesión</button>
-            <a href="recuperar_clave.php" class="button">Recuperar Clave</a>
-            <a href="../index.php" class="button">Cancelar</a>
-        </form>
     </div>
 </body>
 </html>

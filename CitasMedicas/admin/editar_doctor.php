@@ -47,10 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 2.5cm 0 0 0;
+            background-image: url('../img/secundaria.png');
+            background-size: cover;
         }
         .container {
             width: 50%;
@@ -60,17 +61,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        h2, label, input, select {
+            color: #0076c8; /* Color del texto */
+        }
         .form-group {
             margin-bottom: 15px;
         }
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            border-color: #0076c8; /* Color del borde del label */
         }
         .form-group input, .form-group select {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #0076c8; /* Color del borde de los inputs */
             border-radius: 4px;
         }
         .btn-container {
@@ -78,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .btn {
             padding: 8px 15px;
-            background-color: #007bff; /* Azul */
+            background-color: #0076c8; /* Azul */
             color: white;
             border: none;
             border-radius: 5px;
@@ -87,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-left: 10px;
         }
         .btn:hover {
-            background-color: #0056b3; /* Azul más oscuro */
+            background-color: white; /* Blanco */
         }
         .btn-cancel {
             background-color: #dc3545; /* Rojo */

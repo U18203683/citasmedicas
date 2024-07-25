@@ -45,7 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #e0f0ff; /* Azul claro */
+            background: url('../img/registro.png') no-repeat center center fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -53,14 +54,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: white; /* Color de los textos */
         }
         .container {
             width: 80%;
-            max-width: 400px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            background-color: transparent;
+            padding: none;
+            border-radius: none;
+            box-shadow: none;
         }
         .title {
             text-align: center;
@@ -73,68 +75,89 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            color: white; /* Color de los textos */
         }
         .form-group input {
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
+            border: 1.5px solid white; /* Color del borde */
+            background: transparent;
+            color: white; /* Color del texto del input */
         }
         .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
+            padding: 10px 40px;
+            background-color: white;
+            color: #0076c8;
+            border: 1.5px solid white;
+            border-radius: 10px;
+            cursor: pointer;
             transition: background-color 0.3s ease;
-            text-align: center;
-            width: 100%;
         }
         .button:hover {
-            background-color: #0056b3;
+            background-color: #0076c8;
+            border: 1.5px solid white;
+            color:white;
         }
-        .error {
-            color: red;
+        .error, .success {
+            color: white;
             margin-bottom: 15px;
             text-align: center;
         }
-        .success {
-            color: green;
-            margin-bottom: 15px;
-            text-align: center;
+        .table-container {
+            width: 80%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+        }
+        td:last-child {
+            width: 400px; /* Asegura que la tercera columna tenga suficiente espacio */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="title">
-            <h1>Registro de Afiliado</h1>
-        </div>
-        <?php if ($error): ?>
-            <div class="error"><?php echo $error; ?></div>
-        <?php endif; ?>
-        <?php if ($success): ?>
-            <div class="success"><?php echo $success; ?></div>
-            <a href="login.php" class="button">Iniciar Sesión</a>
-        <?php else: ?>
-            <form method="POST" action="">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="apellidos">Apellidos</label>
-                    <input type="text" id="apellidos" name="apellidos" required>
-                </div>
-                <div class="form-group">
-                    <label for="dni">DNI</label>
-                    <input type="text" id="dni" name="dni" required pattern="\d{8}" title="El DNI debe ser un número de 8 dígitos">
-                </div>
-                <button type="submit" class="button">Registrar</button>
-                <a href="../index.php" class="button">Cancelar</a>
-            </form>
-        <?php endif; ?>
+    <div class="table-container">
+        <table>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="container">
+                        <div class="title">
+                            <h1>Registro de Afiliado</h1>
+                        </div>
+                        <?php if ($error): ?>
+                            <div class="error"><?php echo $error; ?></div>
+                        <?php endif; ?>
+                        <?php if ($success): ?>
+                            <div class="success"><?php echo $success; ?></div>
+                            <a href="login.php" class="button">Iniciar Sesión</a>
+                        <?php else: ?>
+                            <form method="POST" action="">
+                                <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" id="nombre" name="nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="apellidos">Apellidos</label>
+                                    <input type="text" id="apellidos" name="apellidos" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dni">DNI</label>
+                                    <input type="text" id="dni" name="dni" required pattern="\d{8}" title="El DNI debe ser un número de 8 dígitos">
+                                </div>
+                                <button type="submit" class="button">Registrar</button>
+                                <a href="../index.php" class="button">Cancelar</a>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

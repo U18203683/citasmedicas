@@ -33,14 +33,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-color: #f0f0f0; /* Fondo gris claro */
+            background-image: url('../img/secundaria.png'); /* Fondo de imagen */
+            background-size: cover; /* Ajustar la imagen al tamaño de la pantalla */
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
         .container {
             width: 50%;
-            margin: 20px auto;
+            margin: 2.5cm auto 20px auto; /* Espacio superior de 2.5cm */
             background-color: white;
             padding: 20px;
             border-radius: 8px;
@@ -52,15 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            color: #0076c8; /* Color de texto */
         }
         .form-group input {
             width: 100%;
             padding: 8px;
             box-sizing: border-box;
+            border: 1px solid #0076c8; /* Color del borde */
+        }
+        h2 {
+            color: #0076c8; /* Color del título */
         }
         .btn {
-            padding: 10px 15px;
-            background-color: #007bff; /* Azul */
+            padding: 5px 10px;
+            background-color: #0076c8;
             color: white;
             border: none;
             border-radius: 5px;
@@ -68,7 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             transition: background-color 0.3s ease;
         }
         .btn:hover {
-            background-color: #0056b3; /* Azul más oscuro */
+            background-color: white;
+            color: #0076c8;                 /* Color de texto #0076c8 */
+            border: 1.5px solid #0076c8;    /* Color y ancho de borde #0076c8  1.5px */
+            border-radius: 5px;
         }
         .btn-container {
             text-align: right;
@@ -100,3 +109,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     </div>
 </body>
 </html>
+
